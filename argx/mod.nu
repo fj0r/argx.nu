@@ -108,12 +108,12 @@ def get-args [] {
 }
 
 export def parse [
-    --fast(-f)
+    --pos(-p)
 ] {
     let cmd = $in
     let ast = $cmd | get-ast
     let x = $ast | get-args
-    if $fast {
+    if not $pos {
         return $x
     }
     let sign = $ast | get-sign
