@@ -2,14 +2,12 @@ export def convert-alias-file [file: path prelude?] {
     open -r $file
     | lines
     | each {|x|
-        let d = $x | parse -r '^\s*export\s+alias\s+(?<a>.+)\s+=\s+(?<f>.+)'
-        if ($d | is-empty) {
-            [$x]
-        } else {
+        let d = $x | parse -r '^\s*export\s+alias\s+(?<a>.+)\s+=\s+(?<f>.+)\s+#\[entry\]'
+        if ($d | is-not-empty) {
             let d = $d | first
             let d = do -i { wrap-fn $d.a $d.f $prelude }
             if ($d | is-empty) {
-                [$"# ******" $x]
+                [$"#[*]" $x]
             } else {
                 [$"# ($x)" $d]
             }
